@@ -1,4 +1,3 @@
-
 import { Bot, User } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -17,8 +16,8 @@ const budgetOptions = ["<£50,000", "£50,000 - £100,000", "£100,000 - £150,0
 const Chatbot = ({ userName }: { userName: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
-  const [step, setStep] = useState(0); // 0: initial, 1: awaiting goal, 2: awaiting timeframe, 3: awaiting budget, 4: awaiting email, 5: done
-  const [leadData, setLeadData] = useState({ goal: '', timeframe: '', budget: '', email: '' });
+  const [step, setStep] = useState(0); // 0: initial, 1: awaiting goal, 2: awaiting timeframe, 3: awaiting budget, 4: awaiting email, 5: awaiting call time, 6: awaiting additional info, 7: done
+  const [leadData, setLeadData] = useState({ goal: '', timeframe: '', budget: '', email: '', callTime: '', additionalInfo: '' });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const Chatbot = ({ userName }: { userName: string }) => {
   };
 
   const handleSendMessage = () => {
-    if (input.trim() === '' || step === 2 || step === 3 || step === 5) return;
+    if (input.trim() === '' || step === 2 || step === 3 || step === 7) return;
 
     const userMessage: Message = { role: 'user', content: input };
     const currentInput = input;
@@ -81,15 +80,34 @@ const Chatbot = ({ userName }: { userName: string }) => {
         }, 500);
         return;
       }
-      const finalData = { ...leadData, email: currentInput };
-      setLeadData(finalData);
-      console.log('Lead data collected:', finalData);
+      setLeadData(prev => ({ ...prev, email: currentInput }));
 
       setTimeout(() => {
         setMessages(prev => [...prev, 
-          { role: 'assistant', content: "Got it. Thank you! We'll be in touch soon. Have a wonderful day." }
+          { role: 'assistant', content: "Thank you. And when is a good time for a member of our team to call you for a brief, no-obligation chat?" }
         ]);
         setStep(5);
+      }, 500);
+    } else if (step === 5) { // Awaiting call time
+      setLeadData(prev => ({ ...prev, callTime: currentInput }));
+      setTimeout(() => {
+        setMessages(prev => [...prev,
+          { role: 'assistant', content: "Great. Finally, is there any specific information you'd like us to prepare for you or any particular questions you'd like us to answer during the call?" }
+        ]);
+        setStep(6);
+      }, 500);
+    } else if (step === 6) { // Awaiting additional info
+      setLeadData(prev => {
+        const finalData = { ...prev, additionalInfo: currentInput };
+        console.log('Lead data collected:', finalData);
+        return finalData;
+      });
+
+      setTimeout(() => {
+        setMessages(prev => [...prev, 
+          { role: 'assistant', content: "Perfect. We have everything we need. A specialist from our team will be in touch at the time you suggested with the information you requested. Thank you again, and have a wonderful day!" }
+        ]);
+        setStep(7);
       }, 500);
     } else {
         setTimeout(() => {
@@ -134,9 +152,9 @@ const Chatbot = ({ userName }: { userName: string }) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-            disabled={step === 2 || step === 3 || step === 5}
+            disabled={step === 2 || step === 3 || step === 7}
           />
-          <Button onClick={handleSendMessage} disabled={step === 2 || step === 3 || step === 5}>
+          <Button onClick={handleSendMessage} disabled={step === 2 || step === 3 || step === 7}>
             Send
           </Button>
         </div>
