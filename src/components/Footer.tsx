@@ -7,8 +7,10 @@ const Footer = () => {
         <p className="text-primary-foreground/70 mt-2">
           Company Registration Number: [Placeholder] | Registered Office Address: [Placeholder]
         </p>
-        <div className="mt-4">
+        <div className="mt-4 flex justify-center items-center space-x-4">
             <a href="#" className="text-secondary hover:underline">Privacy Policy</a>
+            <span className="text-primary-foreground/50">|</span>
+            <a href="https://www.klappropertygroup.com/blog" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">Blog</a>
         </div>
       </div>
     </footer>

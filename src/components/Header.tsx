@@ -18,6 +18,7 @@ const Header = () => {
     { href: "#about", label: "About" },
     { href: "#book", label: "Book" },
     { href: "#testimonials", label: "Testimonials" },
+    { href: "https://www.klappropertygroup.com/blog", label: "Blog" },
   ];
 
   return (
@@ -28,11 +29,20 @@ const Header = () => {
             KLAP<span className="text-secondary">.</span>
           </a>
           <nav className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="text-white hover:text-secondary transition-colors duration-300">
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isExternal = link.href.startsWith('http');
+              return (
+                <a 
+                  key={link.href} 
+                  href={link.href} 
+                  className="text-white hover:text-secondary transition-colors duration-300"
+                  target={isExternal ? '_blank' : '_self'}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
           </nav>
           <Button asChild className="hidden md:block bg-secondary hover:bg-yellow-400 text-primary font-bold">
             <a href="#contact">Get In Touch</a>
