@@ -9,7 +9,7 @@ const About = () => {
         <div className="grid md:grid-cols-5 gap-12 items-center">
           <div className="md:col-span-2">
             <img 
-              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1974&auto=format&fit=crop"
+              src="/lovable-uploads/418397f0-8df1-454a-80e5-0a23ef4f78ff.png"
               alt="Keeshan Pillay"
               className="rounded-lg shadow-2xl w-full"
             />
