@@ -26,7 +26,7 @@ export const services = [
 export const processSteps = [
     { title: "Initial Consultation", description: "We start with a friendly chat to understand your goals and situation." },
     { title: "Tailored Proposal", description: "We present a no-obligation cash offer or a curated list of investment opportunities." },
-    { title: "Due Diligence & Legal", description: "Our expert team manages all the complex paperwork and legal steps for you." },
+    { title: "Due Diligence & Legal", description: "We'll assist you with the complex paperwork and legal steps, ensuring a smooth process." },
     { title: "Successful Completion", description: "You sell your property fast or secure your new investment with complete peace of mind." },
 ];
 
