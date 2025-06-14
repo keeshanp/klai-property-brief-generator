@@ -17,7 +17,7 @@ const About = () => {
           <div className="md:col-span-3">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">A Personal Approach to Property</h2>
             <p className="mb-6 text-lg">
-              Hi, I'm Keeshan Pillay, founder of KLAP Property Group. I'm passionate about helping you achieve your financial goals through strategic property investment, focusing on key growth areas in North Northamptonshire and the North East. My goal is not just to find you a property, but to build a personalised plan for your long-term wealth, focusing on sustainable strategies that deliver both capital appreciation and reliable rental yields.
+              Hi, I'm Keeshan Pillay, founder of KLAP Property Group. I'm passionate about helping you achieve your financial goals through strategic property investment, focusing on key growth areas in the North East of England. My goal is not just to find you a property, but to build a personalised plan for your long-term wealth, focusing on sustainable strategies that deliver both capital appreciation and reliable rental yields.
             </p>
             
             <div className="space-y-6">
