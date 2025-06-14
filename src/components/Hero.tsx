@@ -6,8 +6,8 @@ const Hero = () => {
     <section className="relative h-screen flex items-center justify-center text-center text-white">
       <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
       <img
-        src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2940&auto=format&fit=crop"
-        alt="Modern UK property in the North East of England"
+        src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=2965&auto=format&fit=crop"
+        alt="Modern UK property"
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div className="relative z-20 container mx-auto px-4">
@@ -31,4 +31,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
