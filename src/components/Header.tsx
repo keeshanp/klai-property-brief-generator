@@ -25,8 +25,8 @@ const Header = () => {
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-primary/90 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <a href="#" className="text-2xl font-bold text-white">
-            KLAP<span className="text-secondary">.</span>
+          <a href="#">
+            <img src="/lovable-uploads/f84cba5b-32a0-4c47-9174-fd0b1ba4c825.png" alt="KLAP Property Group Logo" className="h-16" />
           </a>
           <nav className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => {
