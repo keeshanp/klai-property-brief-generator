@@ -15,7 +15,7 @@ const Hero = () => {
           Your Trusted Partner in Property
         </h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 animate-fade-in-up">
-          We offer fast, hassle-free cash sales for UK homeowners and source expertly vetted, high-yield investment opportunities for our clients.
+          We are a sourcing company helping investors find high-yield opportunities in the North East of England, and provide fast, hassle-free cash sales for homeowners across the UK.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button size="lg" className="bg-secondary hover:bg-yellow-400 text-primary font-bold text-lg w-full sm:w-auto">

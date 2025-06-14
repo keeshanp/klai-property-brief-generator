@@ -30,7 +30,7 @@ const About = () => {
               <div>
                 <h3 className="text-2xl font-semibold text-secondary mb-2">My Background</h3>
                 <p className="text-primary-foreground/80">
-                  My journey into property is built on a unique foundation. With over 15 years of success in international software sales, I honed my skills in analysing market trends, building strong relationships, and achieving exceptional results. For the last decade, I've applied that same data-driven, client-focused approach to my passion: property investment. This blend of experience allows me to identify unique opportunities and guide my clients with confidence and clarity.
+                  As a sourcing company, our focus is helping investors interested in the North East of England. With over £1.2 million in personally sourced property deals, I am a highly experienced deal sourcing specialist and a member of the prestigious Sourced Property Network. My expertise spans numerous UK property strategies, and I have a track record of delivering consistent and proven results for investors.
                 </p>
               </div>
             </div>
