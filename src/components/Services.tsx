@@ -10,7 +10,7 @@ const Services = () => {
             <h2 className="text-3xl md:text-4xl font-bold">Your Goals, Our Expertise</h2>
             <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">We provide tailored solutions to help you achieve your property ambitions.</p>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <Card key={index} className="text-center p-6 border-2 hover:border-secondary hover:shadow-xl transition-all duration-300">
               <CardHeader>

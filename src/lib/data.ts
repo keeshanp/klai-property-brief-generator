@@ -1,21 +1,25 @@
-
-import { Home, TrendingUp, Users } from "lucide-react";
+import { Building, Wrench, Repeat, Users } from "lucide-react";
 
 export const services = [
   {
-    icon: Home,
-    title: "Sell Your House, Stress-Free",
-    description: "Need to sell your property quickly and with certainty? We provide a fair, transparent cash offer, allowing you to bypass the open market, avoid agent fees, and complete your sale on a timeline that suits you.",
+    icon: Building,
+    title: "Buy-to-let",
+    description: "Buy-to-let, also known as rental property investment, involves purchasing a property with the primary goal of generating income by renting it out to tenants. It's a popular investment strategy offering both potential for steady cash flow and long-term capital appreciation.",
   },
   {
-    icon: TrendingUp,
-    title: "Invest with Confidence",
-    description: "Grow your portfolio with our expertly sourced, high-yield property deals. We handle the due diligence to bring you opportunities with strong returns and long-term growth potential, tailored to your investment strategy.",
+    icon: Wrench,
+    title: "Property Flips: Flipping for Profit",
+    description: "Property flipping involves acquiring undervalued properties, renovating them to increase their value, and then selling them for a profit within a relatively short time frame (typically a few months to a year). It can be a lucrative strategy, but it also carries significant risks.",
+  },
+  {
+    icon: Repeat,
+    title: "BRRR (Buy, Refurbishment, Rent, Refinance)",
+    description: "The BRRR strategy is a popular approach to property investment that offers a combination of cash flow through rental income and potential for capital appreciation through refurbishment.",
   },
   {
     icon: Users,
-    title: "Who We Help",
-    description: "Whether you're a homeowner seeking a quick sale or an investor looking for your next high-performing asset, our services are designed to provide clear, effective solutions for your unique property needs.",
+    title: "HMOs and Student Accommodation",
+    description: "HMOs, or Houses in Multiple Occupation, are single-family homes converted to accommodate multiple tenants who share common living areas. This strategy can generate higher rental income compared to a traditional buy-to-let.",
   },
 ];
 
