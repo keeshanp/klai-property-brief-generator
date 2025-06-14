@@ -18,11 +18,11 @@ const Hero = () => {
           We are a sourcing company helping investors find high-yield opportunities in the North East of England, and provide fast, hassle-free cash sales for homeowners across the UK.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button size="lg" className="bg-secondary hover:bg-yellow-400 text-primary font-bold text-lg w-full sm:w-auto">
-            Get My Free Offer
+          <Button asChild size="lg" className="bg-secondary hover:bg-yellow-400 text-primary font-bold text-lg w-full sm:w-auto">
+            <a href="#contact">Get My Free Offer</a>
           </Button>
-          <Button size="lg" variant="outline" className="border-secondary text-secondary hover:bg-secondary hover:text-primary font-bold text-lg w-full sm:w-auto">
-            Explore Investments
+          <Button asChild size="lg" variant="outline" className="border-secondary text-secondary hover:bg-secondary hover:text-primary font-bold text-lg w-full sm:w-auto">
+            <a href="#services">Explore Investments</a>
           </Button>
         </div>
       </div>
