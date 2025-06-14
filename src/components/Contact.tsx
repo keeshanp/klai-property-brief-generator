@@ -1,8 +1,6 @@
-
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +21,7 @@ const formSchema = z.object({
 const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [userName, setUserName] = useState("");
+  const [interest, setInterest] = useState<'selling' | 'investing'>('investing');
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -31,6 +30,7 @@ const Contact = () => {
         name: "",
         email: "",
         phone: "",
+        interest: undefined,
         message: "",
     },
   });
@@ -38,6 +38,7 @@ const Contact = () => {
   function onSubmit(data: z.infer<typeof formSchema>) {
     console.log(data);
     setUserName(data.name);
+    setInterest(data.interest);
     setIsSubmitted(true);
     toast({
         title: "Form submitted successfully!",
@@ -50,11 +51,11 @@ const Contact = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">{isSubmitted ? "Let's Talk" : "Ready to Take the Next Step?"}</h2>
-            <p className="text-lg text-muted-foreground mt-2">{isSubmitted ? "Ask me anything about property investment." : "Get in touch today for a confidential, no-obligation chat about your property goals."}</p>
+            <p className="text-lg text-muted-foreground mt-2">{isSubmitted ? "Let's get some more details to assist you." : "Get in touch today for a confidential, no-obligation chat about your property goals."}</p>
         </div>
         <div className="max-w-4xl mx-auto">
         {isSubmitted ? (
-            <Chatbot userName={userName} />
+            <Chatbot userName={userName} interest={interest} />
         ) : (
             <div className="grid md:grid-cols-2 gap-12">
                 <div>
