@@ -5,20 +5,20 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
 
+const timeframeOptions = ["Within the next month", "1 - 3 months", "3 - 6 months", "Just researching at the moment"];
+const budgetOptions = ["<£50,000", "£50,000 - £100,000", "£100,000 - £150,000", "£200,000+", "Prefer not to say"];
+
 const Chatbot = ({ userName }: { userName: string }) => {
-  const [apiKey, setApiKey] = useState('');
-  const [hasApiKey, setHasApiKey] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
+  const [step, setStep] = useState(0); // 0: initial, 1: awaiting goal, 2: awaiting timeframe, 3: awaiting budget, 4: awaiting email, 5: done
+  const [leadData, setLeadData] = useState({ goal: '', timeframe: '', budget: '', email: '' });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,104 +26,79 @@ const Chatbot = ({ userName }: { userName: string }) => {
   }, [messages]);
 
   useEffect(() => {
-    if (userName && hasApiKey) {
+    if (userName && step === 0) {
         setMessages([
-            { role: 'assistant', content: `Hello ${userName || 'there'}! Thanks for your interest. How can I help you further today?` }
+            { role: 'assistant', content: `Hi ${userName || 'there'}! Thanks for your interest in our work. I'm here to ask a few quick questions about your project to make sure we connect you with the right person on our team. It should only take a minute.` },
+            { role: 'assistant', content: "To start, could you tell me a little about the main goal you're hoping to achieve?" }
         ]);
+        setStep(1);
     }
-  }, [userName, hasApiKey]);
+  }, [userName, step]);
   
-  const handleApiKeySubmit = () => {
-    if (apiKey.trim() === '') {
-      toast({ title: "API Key is required", variant: 'destructive' });
-      return;
+  const handleOptionClick = (option: string, type: 'timeframe' | 'budget') => {
+    const userMessage: Message = { role: 'user', content: option };
+    setMessages(prev => [...prev, userMessage]);
+
+    if (type === 'timeframe' && step === 2) {
+      setLeadData(prev => ({...prev, timeframe: option}));
+      setTimeout(() => {
+        setMessages(prev => [...prev,
+          { role: 'assistant', content: "Perfect, that's really helpful. To help us suggest the best solutions, could you select the approximate budget you're working with for this project?" }
+        ]);
+        setStep(3);
+      }, 500);
+    } else if (type === 'budget' && step === 3) {
+      setLeadData(prev => ({...prev, budget: option}));
+      setTimeout(() => {
+        setMessages(prev => [...prev,
+          { role: 'assistant', content: "Excellent, that's everything I need. Thank you! The final step is for me to get your email address, and then a member of our team will be in touch with a tailored response very shortly." }
+        ]);
+        setStep(4);
+      }, 500);
     }
-    setHasApiKey(true);
-    toast({ title: "API Key set successfully!" });
   };
 
-  const handleSendMessage = async () => {
-    if (input.trim() === '' || isLoading || !hasApiKey) return;
+  const handleSendMessage = () => {
+    if (input.trim() === '' || step === 2 || step === 3 || step === 5) return;
 
     const userMessage: Message = { role: 'user', content: input };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
+    const currentInput = input;
     setInput('');
-    setIsLoading(true);
-
-    try {
-      const systemInstruction = {
-        parts: [{
-          text: `You are a helpful assistant for KLAP Property Group, a property sourcing company in the North East of England. The user, ${userName}, has just submitted a contact form. Be helpful, concise, and friendly. Their name is ${userName}.`
-        }]
-      };
-
-      const contents = newMessages.map(m => ({
-        role: m.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: m.content }]
-      }));
-      
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: contents,
-          systemInstruction: systemInstruction,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData?.error?.message || 'Failed to get response from AI');
+    setMessages(prev => [...prev, userMessage]);
+    
+    if (step === 1) { // Awaiting goal
+      setLeadData(prev => ({ ...prev, goal: currentInput }));
+      setTimeout(() => {
+        setMessages(prev => [...prev, 
+          { role: 'assistant', content: "That sounds like a great project! What is your ideal timeframe for getting this done?" }
+        ]);
+        setStep(2);
+      }, 500);
+    } else if (step === 4) { // Awaiting email
+      if (!/\S+@\S+\.\S+/.test(currentInput)) {
+        setTimeout(() => {
+          setMessages(prev => [...prev, { role: 'assistant', content: "Please provide a valid email address." }]);
+        }, 500);
+        return;
       }
+      const finalData = { ...leadData, email: currentInput };
+      setLeadData(finalData);
+      console.log('Lead data collected:', finalData);
 
-      const data = await response.json();
-
-      if (!data.candidates || data.candidates.length === 0) {
-        throw new Error("Response was blocked due to safety concerns. Please modify your prompt.");
-      }
-
-      const botMessageContent = data.candidates[0].content.parts[0].text;
-      const botMessage: Message = { role: 'assistant', content: botMessageContent };
-      setMessages((prev) => [...prev, botMessage]);
-
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Something went wrong.",
-        variant: "destructive",
-      });
-      // remove the user message that caused the error
-      setMessages((prev) => prev.slice(0, prev.length - 1));
-    } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setMessages(prev => [...prev, 
+          { role: 'assistant', content: "Got it. Thank you! We'll be in touch soon. Have a wonderful day." }
+        ]);
+        setStep(5);
+      }, 500);
+    } else {
+        setTimeout(() => {
+            setMessages(prev => [...prev, 
+                { role: 'assistant', content: "That's a great question for our team. I can make sure they address that in their follow-up. For now, my job is just to get these initial details for them." }
+            ]);
+        }, 500);
     }
   };
-
-  if (!hasApiKey) {
-    return (
-      <Card className="w-full max-w-2xl mx-auto animate-fade-in-up">
-        <CardHeader>
-          <CardTitle>Chatbot Setup</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-muted-foreground">Please enter your Google AI API key to start chatting. You can get one from Google AI Studio. For a more permanent and secure solution, we recommend integrating with Supabase.</p>
-          <div className="flex gap-2">
-            <Input
-              type="password"
-              placeholder="Google AI API Key"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleApiKeySubmit()}
-            />
-            <Button onClick={handleApiKeySubmit}>Start Chat</Button>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
 
   return (
     <Card className="w-full max-w-2xl mx-auto animate-fade-in-up">
@@ -141,6 +116,16 @@ const Chatbot = ({ userName }: { userName: string }) => {
               {msg.role === 'user' && <div className="p-2 rounded-full bg-primary/20 shrink-0"><User className="w-6 h-6 text-primary" /></div>}
             </div>
           ))}
+          {step === 2 && (
+            <div className="flex flex-wrap gap-2 justify-center p-2">
+              {timeframeOptions.map(option => <Button key={option} onClick={() => handleOptionClick(option, 'timeframe')} variant="outline" size="sm">{option}</Button>)}
+            </div>
+          )}
+          {step === 3 && (
+            <div className="flex flex-wrap gap-2 justify-center p-2">
+              {budgetOptions.map(option => <Button key={option} onClick={() => handleOptionClick(option, 'budget')} variant="outline" size="sm">{option}</Button>)}
+            </div>
+          )}
           <div ref={messagesEndRef} />
         </div>
         <div className="flex gap-2">
@@ -149,10 +134,10 @@ const Chatbot = ({ userName }: { userName: string }) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-            disabled={isLoading}
+            disabled={step === 2 || step === 3 || step === 5}
           />
-          <Button onClick={handleSendMessage} disabled={isLoading}>
-            {isLoading ? 'Sending...' : 'Send'}
+          <Button onClick={handleSendMessage} disabled={step === 2 || step === 3 || step === 5}>
+            Send
           </Button>
         </div>
       </CardContent>
