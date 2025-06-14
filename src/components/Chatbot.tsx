@@ -46,26 +46,31 @@ const Chatbot = ({ userName }: { userName: string }) => {
     if (input.trim() === '' || isLoading || !hasApiKey) return;
 
     const userMessage: Message = { role: 'user', content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setInput('');
     setIsLoading(true);
 
     try {
-      const systemMessage = `You are a helpful assistant for KLAP Property Group, a property sourcing company in the North East of England. The user, ${userName}, has just submitted a contact form. Be helpful, concise, and friendly. Their name is ${userName}.`;
+      const systemInstruction = {
+        parts: [{
+          text: `You are a helpful assistant for KLAP Property Group, a property sourcing company in the North East of England. The user, ${userName}, has just submitted a contact form. Be helpful, concise, and friendly. Their name is ${userName}.`
+        }]
+      };
+
+      const contents = newMessages.map(m => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      }));
       
-      const response = await fetch('https://api.perplexity.ai/chat/completions', {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'llama-3.1-sonar-small-128k-online',
-          messages: [
-            { role: 'system', content: systemMessage },
-            ...messages.map(m => ({role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content})),
-            userMessage
-          ],
+          contents: contents,
+          systemInstruction: systemInstruction,
         }),
       });
 
@@ -75,7 +80,13 @@ const Chatbot = ({ userName }: { userName: string }) => {
       }
 
       const data = await response.json();
-      const botMessage: Message = { role: 'assistant', content: data.choices[0].message.content };
+
+      if (!data.candidates || data.candidates.length === 0) {
+        throw new Error("Response was blocked due to safety concerns. Please modify your prompt.");
+      }
+
+      const botMessageContent = data.candidates[0].content.parts[0].text;
+      const botMessage: Message = { role: 'assistant', content: botMessageContent };
       setMessages((prev) => [...prev, botMessage]);
 
     } catch (error: any) {
@@ -84,6 +95,7 @@ const Chatbot = ({ userName }: { userName: string }) => {
         description: error.message || "Something went wrong.",
         variant: "destructive",
       });
+      // remove the user message that caused the error
       setMessages((prev) => prev.slice(0, prev.length - 1));
     } finally {
       setIsLoading(false);
@@ -97,11 +109,11 @@ const Chatbot = ({ userName }: { userName: string }) => {
           <CardTitle>Chatbot Setup</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-muted-foreground">Please enter your Perplexity API key to start chatting. For a more permanent and secure solution, we recommend integrating with Supabase.</p>
+          <p className="text-muted-foreground">Please enter your Google AI API key to start chatting. You can get one from Google AI Studio. For a more permanent and secure solution, we recommend integrating with Supabase.</p>
           <div className="flex gap-2">
             <Input
               type="password"
-              placeholder="Perplexity API Key"
+              placeholder="Google AI API Key"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleApiKeySubmit()}
