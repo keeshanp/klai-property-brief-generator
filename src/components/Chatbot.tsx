@@ -154,7 +154,7 @@ const Chatbot = ({ userName, interest }: { userName: string, interest: 'selling'
           return finalData;
         });
         setTimeout(() => {
-          setMessages(prev => [...prev, { role: 'assistant', content: "Perfect! We have everything we need. A specialist from our team will be in touch. To speed things up, you can book a call directly here: https://calendly.com/keeshan-klappropertygroup/30min. Thank you!" }]);
+          setMessages(prev => [...prev, { role: 'assistant', content: "Perfect! We have everything we need. A specialist from our team will be in touch. To speed things up, you can book a call directly here: https://calendly.com/keeshan-klappropertygroup/30min?preview_source=et_card&month=2025-06. Thank you!" }]);
           setStep(7);
         }, 500);
       } else {
@@ -182,7 +182,7 @@ const Chatbot = ({ userName, interest }: { userName: string, interest: 'selling'
               return finalData;
           });
           setTimeout(() => {
-              setMessages(prev => [...prev, { role: 'assistant', content: `Thank you, ${userName}. All your information has been securely passed to our team. An agent who specialises in your area will be in touch within 24 hours to arrange a convenient time for your valuation. To speed things up, you can book a call directly here: https://calendly.com/keeshan-klappropertygroup/30min. We look forward to speaking with you soon!` }]);
+              setMessages(prev => [...prev, { role: 'assistant', content: `Thank you, ${userName}. All your information has been securely passed to our team. An agent who specialises in your area will be in touch within 24 hours to arrange a convenient time for your valuation. To speed things up, you can book a call directly here: https://calendly.com/keeshan-klappropertygroup/30min?preview_source=et_card&month=2025-06. We look forward to speaking with you soon!` }]);
               setStep(7);
           }, 500);
       } else {
