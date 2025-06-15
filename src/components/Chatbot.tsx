@@ -1,4 +1,3 @@
-
 import { Bot, User } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -155,7 +154,7 @@ const Chatbot = ({ userName, interest }: { userName: string, interest: 'selling'
           return finalData;
         });
         setTimeout(() => {
-          setMessages(prev => [...prev, { role: 'assistant', content: "Perfect. We have everything we need. A specialist from our team will be in touch at the time you suggested with the information you requested. Thank you again, and have a wonderful day!" }]);
+          setMessages(prev => [...prev, { role: 'assistant', content: "Perfect! We have everything we need. A specialist from our team will be in touch. To speed things up, you can book a call directly here: https://calendly.com/keeshan-klappropertygroup/30min. Thank you!" }]);
           setStep(7);
         }, 500);
       } else {
@@ -183,7 +182,7 @@ const Chatbot = ({ userName, interest }: { userName: string, interest: 'selling'
               return finalData;
           });
           setTimeout(() => {
-              setMessages(prev => [...prev, { role: 'assistant', content: `Thank you, ${userName}. All your information has been securely passed to our team. An agent who specializes in your area will be in touch within 24 hours to arrange a convenient time for your valuation. We look forward to speaking with you soon!` }]);
+              setMessages(prev => [...prev, { role: 'assistant', content: `Thank you, ${userName}. All your information has been securely passed to our team. An agent who specialises in your area will be in touch within 24 hours to arrange a convenient time for your valuation. To speed things up, you can book a call directly here: https://calendly.com/keeshan-klappropertygroup/30min. We look forward to speaking with you soon!` }]);
               setStep(7);
           }, 500);
       } else {
@@ -200,6 +199,20 @@ const Chatbot = ({ userName, interest }: { userName: string, interest: 'selling'
     return false;
   };
 
+  const renderMessageContent = (content: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return content.split(urlRegex).map((part, i) => {
+        if (part.match(urlRegex)) {
+            return (
+                <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="underline">
+                    {part}
+                </a>
+            );
+        }
+        return part;
+    });
+  };
+
   return (
     <Card className="w-full max-w-2xl mx-auto animate-fade-in-up">
       <CardHeader>
@@ -211,7 +224,7 @@ const Chatbot = ({ userName, interest }: { userName: string, interest: 'selling'
             <div key={index} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
               {msg.role === 'assistant' && <div className="p-2 rounded-full bg-secondary/20 shrink-0"><Bot className="w-6 h-6 text-secondary" /></div>}
               <div className={`rounded-lg px-4 py-2 max-w-[80%] break-words ${msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
-                {msg.content}
+                {renderMessageContent(msg.content)}
               </div>
               {msg.role === 'user' && <div className="p-2 rounded-full bg-primary/20 shrink-0"><User className="w-6 h-6 text-primary" /></div>}
             </div>
