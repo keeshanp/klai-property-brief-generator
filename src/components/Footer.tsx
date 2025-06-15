@@ -1,23 +1,22 @@
 
-import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+import { Facebook, Instagram, Linkedin, X } from "lucide-react";
 
 const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground py-12">
       <div className="container mx-auto px-4 text-center">
         <div className="mb-6 flex justify-center items-center space-x-6">
-          {/* TODO: Replace '#' with your actual social media URLs */}
-          <a href="#" aria-label="LinkedIn" className="text-primary-foreground/80 hover:text-secondary transition-colors">
+          <a href="https://www.linkedin.com/company/klap-porperty-group-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-primary-foreground/80 hover:text-secondary transition-colors">
             <Linkedin className="h-6 w-6" />
           </a>
-          <a href="#" aria-label="Facebook" className="text-primary-foreground/80 hover:text-secondary transition-colors">
+          <a href="https://www.facebook.com/profile.php?id=61561366897119" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-primary-foreground/80 hover:text-secondary transition-colors">
             <Facebook className="h-6 w-6" />
           </a>
-          <a href="#" aria-label="Instagram" className="text-primary-foreground/80 hover:text-secondary transition-colors">
+          <a href="https://www.instagram.com/klappropertygroup/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-primary-foreground/80 hover:text-secondary transition-colors">
             <Instagram className="h-6 w-6" />
           </a>
-          <a href="#" aria-label="YouTube" className="text-primary-foreground/80 hover:text-secondary transition-colors">
-            <Youtube className="h-6 w-6" />
+          <a href="https://x.com/KLAPProperty" target="_blank" rel="noopener noreferrer" aria-label="X" className="text-primary-foreground/80 hover:text-secondary transition-colors">
+            <X className="h-6 w-6" />
           </a>
         </div>
         <div className="flex justify-center items-center gap-8 mb-8">
