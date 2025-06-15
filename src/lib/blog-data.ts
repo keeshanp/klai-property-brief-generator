@@ -55,7 +55,7 @@ With world-class universities, the North East has a large and consistent student
 The region is well-connected by road, rail, and air, making it an attractive place to live and work.
 
 ### 5. Untapped Potential
-While the secret is getting out, there are still many undervalued areas and opportunities for savvy investors to capitalize on before prices rise further.`,
+While the secret is getting out, there are still many undervalued areas and opportunities for savvy investors to capitalise on before prices rise further.`,
     imageUrl: 'https://images.unsplash.com/photo-1599903224115-d4a69b739190?q=80&w=2940&auto=format&fit=crop',
   },
 ];

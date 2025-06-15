@@ -15,7 +15,7 @@ const Hero = () => {
           Expert Property Deal Sourcing in North East England
         </h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 animate-fade-in-up">
-          Unlock high-yield investment opportunities in the North East with our expert deal sourcing services. As featured in our book and blog, we specialize in BTL, BRRR, and property flips for serious investors. We also provide fast, hassle-free cash sales for homeowners.
+          Unlock high-yield investment opportunities in the North East with our expert deal sourcing services. As featured in our book and blog, we specialise in BTL, BRRR, and property flips for serious investors. We also provide fast, hassle-free cash sales for homeowners.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button asChild size="lg" className="bg-secondary hover:bg-yellow-400 text-primary font-bold text-lg w-full sm:w-auto">
