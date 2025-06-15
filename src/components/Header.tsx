@@ -17,7 +17,7 @@ const Header = () => {
     { href: "#services", label: "Services" },
     { href: "#about", label: "About" },
     { href: "#book", label: "Book" },
-    { href: "#testimonials", label: "Testimonials" },
+    { href: "https://g.co/kgs/Kh16GDP", label: "Testimonials" },
     { href: "/blog", label: "Blog" },
   ];
 
