@@ -33,7 +33,7 @@ const Footer = () => {
             <span className="text-primary-foreground/50">|</span>
             <a href="/terms-of-service" className="text-secondary hover:underline">Terms of Service</a>
             <span className="text-primary-foreground/50">|</span>
-            <a href="https://www.klappropertygroup.com/blog" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">Blog</a>
+            <a href="/blog" className="text-secondary hover:underline">Blog</a>
         </div>
       </div>
     </footer>

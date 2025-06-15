@@ -18,14 +18,14 @@ const Header = () => {
     { href: "#about", label: "About" },
     { href: "#book", label: "Book" },
     { href: "#testimonials", label: "Testimonials" },
-    { href: "https://www.klappropertygroup.com/blog", label: "Blog" },
+    { href: "/blog", label: "Blog" },
   ];
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-primary/90 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <a href="#" className="text-2xl font-bold text-white tracking-wider">
+          <a href="/" className="text-2xl font-bold text-white tracking-wider">
             KLAP
           </a>
           <nav className="hidden md:flex items-center space-x-6">
